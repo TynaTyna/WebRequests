@@ -1,0 +1,109 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+
+<h2>Http Requests</h2>
+
+<p>
+    Задание:<br>
+    Создать веб-приложение, которое будет состоять из одной страницы. Страница должна иметь возможность посылать различные типы HTTP запросов к серверу. <br>
+    Серверная часть, в свою очередь, сохранять информацию о каждом запросе в файл.<br>
+    Информация, которая должна сохраняться в файл:<br>
+    - тип запроса,<br>
+    - IP адрес клиента, который послал запрос,<br>
+    - URL текущего запроса.<br>
+    Результаты работы будут сохранены в файл, который доступен по адресу: ~Request/Content/Response.txt <br>
+</p>
+
+@Html.DropDownList("requestItems", null, new { onchange = "document.location.href='/Home/Index?value='+this.value;" })
+
+ <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script>
+   
+   function sendGet() {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open('GET', '/Home/RequestInfo', true);
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4) {
+                if (xmlhttp.status == 200) {
+                    alert(xmlhttp.responseText);
+                }
+            }
+        };
+        xmlhttp.send(null);
+    }
+
+
+    function sendPost() {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open('POST', '/Home/RequestInfo', true);
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4) {
+                if (xmlhttp.status == 200) {
+                    alert(xmlhttp.responseText);
+                }
+            }
+        };
+        xmlhttp.send(null);
+    }
+
+    function sendOptions() {
+        $.ajax({
+            url: '/Home/RequestInfo',
+            type: 'OPTIONS',
+            contentType: 'application/json',
+              });
+    }
+
+
+    function sendLink() {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open('LINK', '/Home/RequestInfo', true);
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4) {
+                if (xmlhttp.status == 200) {
+                    alert(xmlhttp.responseText);
+                }
+            }
+        };
+        xmlhttp.send(null);
+    }
+
+    function sendPut() {
+        $.ajax({
+            url: '/Home/RequestInfo',
+            type: 'PUT',
+            contentType: 'application/json',
+            success: function (result) {
+                alert(xmlhttp.responseText);
+            }
+        });
+    }
+
+
+    function sendDelete() {
+        $.ajax({
+            url: '/Home/RequestInfo',
+            type: 'DELETE',
+            contentType: 'application/json',
+            success: function (result) {
+                alert(xmlhttp.responseText);
+            }
+        });
+    }
+
+    var i = $("#requestItems").val();
+    switch (i) {
+        case '1': sendGet(); alert("Get запрос отправлен, информация сохранена!");break;
+        case '2': sendPost(); alert("Post запрос отправлен, информация сохранена!"); break;
+        case '3': sendOptions(); alert("Options запрос отправлен, информация сохранена!"); break;
+        case '4': sendLink(); alert("Link запрос отправлен, информация сохранена!"); break;
+        case '5': sendPut(); alert("Put запрос отправлен, информация сохранена!"); break;
+        case '6': sendDelete(); alert("Delete запрос отправлен, информация сохранена!"); break;
+        default: alert("Пожалуйста, выберите тип запроса в выпадающем списке"); break;
+    }
+
+
+
+</script>
